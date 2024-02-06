@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 public class WriteUsingCompetitionHandler {
     public static void main(String[] args) throws Exception {
         long t1 = System.currentTimeMillis();
-        Path path = Paths.get("test.txt");
+        Path path = Paths.get("/src/main/resources/test.txt");
         AsynchronousFileChannel afc = AsynchronousFileChannel.open(path, WRITE,
                 CREATE);
         WriteHandler handler = new WriteHandler();
@@ -31,10 +31,7 @@ public class WriteUsingCompetitionHandler {
     }
     public static ByteBuffer getDataBuffer() {
         String lineSeparator = System.lineSeparator();
-        String str = "test" +
-                lineSeparator +
-                "test" +
-                lineSeparator;
+        String str = "test "+Math.random()+lineSeparator;
         Charset cs = StandardCharsets.UTF_8;
         return ByteBuffer.wrap(str.getBytes(cs));
     }
