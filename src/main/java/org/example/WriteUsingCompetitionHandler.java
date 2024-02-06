@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousFileChannel;
 import java.nio.channels.CompletionHandler;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 public class WriteUsingCompetitionHandler {
@@ -17,7 +18,7 @@ public class WriteUsingCompetitionHandler {
                 CREATE);
         WriteHandler handler = new WriteHandler();
         ByteBuffer dataBuffer = getDataBuffer();
-        AttachmentWrite attach = new AttachmentWrite();
+        Attachment attach = new Attachment();
         attach.asyncChannel = afc;
         attach.buffer = dataBuffer;
         attach.path = path;
@@ -29,16 +30,13 @@ public class WriteUsingCompetitionHandler {
 //        Thread.sleep(5000);
     }
     public static ByteBuffer getDataBuffer() {
-        String lineSeparator = System.getProperty("line.separator");
-        StringBuilder sb = new StringBuilder();
-        sb.append("test");
-        sb.append(lineSeparator);
-        sb.append("test");
-        sb.append(lineSeparator);
-        String str = sb.toString();
-        Charset cs = Charset.forName("UTF-8");
-        ByteBuffer bb = ByteBuffer.wrap(str.getBytes(cs));
-        return bb;
+        String lineSeparator = System.lineSeparator();
+        String str = "test" +
+                lineSeparator +
+                "test" +
+                lineSeparator;
+        Charset cs = StandardCharsets.UTF_8;
+        return ByteBuffer.wrap(str.getBytes(cs));
     }
 }
 class Attachment {
@@ -47,9 +45,9 @@ class Attachment {
     public AsynchronousFileChannel asyncChannel;
 }
 
-class WriteHandler implements CompletionHandler<Integer, AttachmentWrite> {
+class WriteHandler implements CompletionHandler<Integer, Attachment> {
     @Override
-    public void completed(Integer result, AttachmentWrite attach) {
+    public void completed(Integer result, Attachment attach) {
         System.out.format("%s bytes written  to  %s%n", result,
                 attach.path.toAbsolutePath());
         try {
@@ -60,7 +58,7 @@ class WriteHandler implements CompletionHandler<Integer, AttachmentWrite> {
     }
 
     @Override
-    public void failed(Throwable e, AttachmentWrite attach) {
+    public void failed(Throwable e, Attachment attach) {
         try {
             attach.asyncChannel.close();
         } catch (IOException e1) {

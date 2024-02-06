@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousFileChannel;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.Future;
@@ -27,7 +28,7 @@ public class ReadUsingFutureObject {
             System.out.format("Read data is:%n");
 
             byte[] byteData = dataBuffer.array();
-            Charset cs = Charset.forName("UTF-8");
+            Charset cs = StandardCharsets.UTF_8;
             String data = new String(byteData, cs);
 
             System.out.println(data);

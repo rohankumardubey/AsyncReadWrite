@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousFileChannel;
 import java.nio.channels.CompletionHandler;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 public class ReadUsingCompletitionHandler {
@@ -40,7 +41,7 @@ class ReadHandler implements CompletionHandler<Integer, AttachmentWrite> {
         System.out.format("%s bytes read   from  %s%n", result, attach.path);
         System.out.format("Read data is:%n");
         byte[] byteData = attach.buffer.array();
-        Charset cs = Charset.forName("UTF-8");
+        Charset cs = StandardCharsets.UTF_8;
         String data = new String(byteData, cs);
         System.out.println(data);
         try {
